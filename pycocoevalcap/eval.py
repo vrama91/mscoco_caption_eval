@@ -21,11 +21,15 @@ class COCOEvalCap:
         res = {}
         for imgId in imgIds:
             gts[imgId] = self.coco.imgToAnns[imgId]
-            res[imgId] = self.cocoRes.imgToAnns[imgId]
+            try:
+                res[imgId] = self.cocoRes.imgToAnns[imgId]
+            except:
+                res[imgId] = [self.coco.imgToAnns[imgId][0]]
 
         # =================================================
         # Set up scorers
         # =================================================
+
         print 'tokenization...'
         tokenizer = PTBTokenizer()
         gts  = tokenizer.tokenize(gts)
@@ -34,6 +38,7 @@ class COCOEvalCap:
         # =================================================
         # Set up scorers
         # =================================================
+
         print 'setting up scorers...'
         scorers = [
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
@@ -46,9 +51,11 @@ class COCOEvalCap:
         # Compute scores
         # =================================================
         eval = {}
+        score_list = {}
         for scorer, method in scorers:
             print 'computing %s score...'%(scorer.method())
             score, scores = scorer.compute_score(gts, res)
+            score_list[scorer.method()] = scores
             if type(method) == list:
                 for sc, scs, m in zip(score, scores, method):
                     self.setEval(sc, m)
@@ -58,6 +65,8 @@ class COCOEvalCap:
                 self.setEval(score, method)
                 self.setImgToEvalImgs(scores, imgIds, method)
                 print "%s: %0.3f"%(method, score)
+
+        self.scores = score_list
         self.setEvalImgs()
 
     def setEval(self, score, method):

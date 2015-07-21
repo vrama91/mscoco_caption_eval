@@ -51,6 +51,7 @@ from matplotlib.patches import Polygon
 import numpy as np
 from skimage.draw import polygon
 import copy
+import pdb
 
 class COCO:
     def __init__(self, annotation_file=None):
