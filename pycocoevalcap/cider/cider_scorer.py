@@ -182,8 +182,6 @@ class CiderScorer(object):
         self.compute_doc_freq()
         # assert to check document frequency
         assert(len(self.ctest) >= max(self.document_frequency.values()))
-        import pickle
-        pickle.dump(self.document_frequency, open('coco-val-df.p', 'w'))
         # compute cider score
         score = self.compute_cider()
         # debug

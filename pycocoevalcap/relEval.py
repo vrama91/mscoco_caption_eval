@@ -4,6 +4,7 @@ from bleu.bleu import Bleu
 from meteor.meteor import Meteor
 from rouge.rouge import Rouge
 from cider.cider import Cider
+from skipthought.skthought import SkThought
 import numpy as np
 import pdb
 
@@ -48,6 +49,7 @@ class RelCOCOEvalCap:
         # =================================================
 
         print 'setting up scorers...'
+        """
         scorers = [
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
             (Meteor(),"METEOR"),
@@ -56,9 +58,8 @@ class RelCOCOEvalCap:
         ]
         """
         scorers = [
-            (Cider(), "CIDEr")
+            (SkThought(), "skipthought")
         ]
-        """
         # =================================================
         # Compute scores
         # =================================================
