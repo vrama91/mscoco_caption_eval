@@ -16,12 +16,11 @@ from scipy.linalg import norm
 from nltk.tokenize import word_tokenize
 
 profile = False
-
 #-----------------------------------------------------------------------------#
 # Specify model and table locations here
 #-----------------------------------------------------------------------------#
-path_to_models = 'models/'
-path_to_tables = 'models/'
+path_to_models = '/home/vrama91/projects/mscoco_caption_eval/pycocoevalcap/skipthought/models/'
+path_to_tables = '/home/vrama91/projects/mscoco_caption_eval/pycocoevalcap/skipthought/models/'
 #-----------------------------------------------------------------------------#
 
 path_to_umodel = path_to_models + 'uni_skip.npz'

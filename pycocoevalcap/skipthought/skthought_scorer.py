@@ -6,7 +6,7 @@
 # Description: Class to compute skip thought vectors given
 # candidates and references
 
-import skthoughts
+import skipthoughts
 import numpy as np
 import pdb
 
@@ -40,6 +40,7 @@ class skipScorer():
                 self.ctest.append(None) # lens of crefs and ctest have to match
 
     def compute_skip(self):
+		# TO-DO: Verify Sublists Implementation
         def sublists(original, lenRefs):
             newList = []
 
@@ -50,8 +51,6 @@ class skipScorer():
             return newList
 
         import skipthoughts
-        # TO-DO: Add cpu/gpu as a parameter to skip thoughts
-
         model = skipthoughts.load_model()
         print "Getting skip vectors for candidates"
         candVecs = skipthoughts.encode(model, self.ctest)
@@ -59,8 +58,6 @@ class skipScorer():
 
         print "Getting skip vectors for references"
         lenRefs = [len(x) for x in self.crefs]
-        # assert that all refs should have number of sentences
-        assert(len(set(lenRefs))==1)
         allRefs = [y for x in self.crefs for y in x]
         refVecs = skipthoughts.encode(model, allRefs)
         print "Done"
@@ -80,11 +77,11 @@ class skipScorer():
                 mag_ref = np.sqrt(np.dot(ref, ref))
                 sim /= (mag_test*mag_ref)
                 score.append(sim)
-            scores.append(score)
+			# doing mean across refereces
+            scores.append(np.mean(np.array(score)))
             print "At iteration %d/%d" % (len(scores), len(candVecs))
         return scores
 
     def compute_score(self, option=None, verbose=0):
-        # compute skip thought score
-        score = self.compute_skip()
-        return np.mean(np.array(score)), np.array(score)
+		score = self.compute_skip()
+		return np.mean(np.array(score)), np.array(score)

@@ -58,7 +58,7 @@ class RelCOCOEvalCap:
         ]
         """
         scorers = [
-            (SkThought(), "skipthought")
+            (Cider(), "CIDEr")
         ]
         # =================================================
         # Compute scores
